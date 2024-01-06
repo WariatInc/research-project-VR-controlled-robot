@@ -55,7 +55,13 @@
   tags:
     - apps.install.python
 
-- name: Check if alias exists
+- name: "Python symlink creation"
+  ansible.builtin.shell:
+    cmd: "bash -c 'ln -sf /usr/bin/python3 /usr/bin/python'"
+  tags:
+    - apps.install.python
+
+- name: "Check if alias exists"
   ansible.builtin.shell:
     cmd: "grep -q 'alias python='python3'' ~/.bashrc"
   register: alias_check
@@ -63,7 +69,7 @@
   tags:
     - apps.install.python
 
-- name: Add alias to shell profile
+- name: "Add alias to shell profile"
   ansible.builtin.lineinfile:
     path: "~/.bashrc"
     line: "alias python='python3'"
@@ -72,12 +78,12 @@
   tags:
     - apps.install.python
 
-- name: Source the shell profile
+- name: "Source the shell profile"
   ansible.builtin.shell: "bash -c 'source ~/.bashrc'"
   tags:
     - apps.install.python
 
-- name: Check if alias exists
+- name: "Check if alias exists - devuser"
   become_user: devuser
   ansible.builtin.shell:
     cmd: "grep -q 'alias python='python3'' ~/.bashrc"
@@ -86,7 +92,7 @@
   tags:
     - apps.install.python
 
-- name: Add alias to shell profile
+- name: "Add alias to shell profile - devuser"
   become_user: devuser
   ansible.builtin.lineinfile:
     path: "~/.bashrc"
@@ -96,7 +102,7 @@
   tags:
     - apps.install.python
 
-- name: Source the shell profile
+- name: "Source the shell profile - devuser"
   become_user: devuser
   ansible.builtin.shell: "bash -c 'source ~/.bashrc'"
   tags:
